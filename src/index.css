@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Monument Extended';
+  src: url('./assets/fonts/MonumentExtended-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Monument Extended';
+  src: url('./assets/fonts/MonumentExtended-Ultrabold.otf') format('opentype');
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('./assets/fonts/instrumentserif-regular.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('./assets/fonts/instrumentserif-italic.ttf') format('truetype');
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Paleta de marca: verde bosque y beige */
+@theme {
+  --color-forest: #142d28;
+  --color-paper: #faf0da;
+  --font-sans: Verdana, Geneva, sans-serif;
+  --font-display: 'Monument Extended', Verdana, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+}
+
+body {
+  @apply bg-paper text-forest antialiased;
+}
+
+/* En @layer base para que las utilidades de Tailwind puedan sobrescribirlo */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-extrabold uppercase tracking-tight;
+  }
+}
