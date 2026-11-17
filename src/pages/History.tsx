@@ -20,7 +20,7 @@ export default function History() {
           <article key={p.id} className="grid items-center gap-6 border-b border-forest/15 py-10 md:grid-cols-[18rem_1fr_auto] xl:gap-16">
             <p className="font-serif text-7xl leading-none xl:text-8xl">{p.year}</p>
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-forest/60">Autopia</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-forest/60">{p.event ?? 'Autopia'}</p>
               {p.car ? (
                 <p className="mt-2 font-serif text-3xl italic">
                   {p.car.brand} {p.car.model}{p.car.year ? ` · ${p.car.year}` : ''}

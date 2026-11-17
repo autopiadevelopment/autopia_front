@@ -32,6 +32,30 @@
   --font-sans: Verdana, Geneva, sans-serif;
   --font-display: 'Monument Extended', Verdana, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
+
+  --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shake: shake 0.4s ease-in-out;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shake {
+    20%,
+    60% {
+      transform: translateX(-6px);
+    }
+    40%,
+    80% {
+      transform: translateX(6px);
+    }
+  }
 }
 
 body {
