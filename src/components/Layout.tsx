@@ -1,30 +1,24 @@
 import { useState } from 'react'
 import { NavLink, Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
+import { nav } from '../lib/nav'
 import { Spinner } from './ui'
-
-const items = [
-  { to: '/', label: 'Inicio', end: true },
-  { to: '/perfil', label: 'Perfil' },
-  { to: '/coches', label: 'Mis coches' },
-  { to: '/historial', label: 'Historial' },
-]
 
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { user, logout } = useAuth()
   return (
-    <div className="flex h-full flex-col bg-forest px-9 py-10 text-paper">
+    <div className="flex min-h-full flex-col bg-forest px-9 py-10 text-paper">
       <img src="/brand/logo-tag-beige.svg" alt="Autopia 05 · Idilio automovilístico en el bosque" className="w-full" />
 
-      <nav className="mt-16 border-b border-paper/15">
-        {items.map((it, i) => (
+      <nav className="mt-12 border-b border-paper/15">
+        {nav.map((it, i) => (
           <NavLink
             key={it.to}
             to={it.to}
-            end={it.end}
+            end={'end' in it}
             onClick={onNavigate}
             className={({ isActive }) =>
-              `group flex items-baseline gap-5 border-t border-paper/15 py-5 transition ${isActive ? 'text-paper' : 'text-paper/50 hover:text-paper'}`
+              `group flex items-baseline gap-5 border-t border-paper/15 py-4 transition ${isActive ? 'text-paper' : 'text-paper/50 hover:text-paper'}`
             }
           >
             {({ isActive }) => (
@@ -61,7 +55,7 @@ export function ProtectedLayout() {
     <div className="min-h-screen lg:flex">
       {/* Escritorio: menú fijo a toda la altura */}
       <aside className="hidden w-80 shrink-0 lg:block xl:w-96">
-        <div className="sticky top-0 h-screen">
+        <div className="sticky top-0 h-screen overflow-y-auto bg-forest">
           <Sidebar />
         </div>
       </aside>

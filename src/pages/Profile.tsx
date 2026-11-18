@@ -4,9 +4,11 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useAuth } from '../auth/AuthContext'
+import { NewsletterSection } from '../components/Newsletter'
 import { Button, ErrorMessage, Field, PageHeader, Section } from '../components/ui'
 import { api } from '../lib/api'
 import type { User } from '../lib/types'
+import { useHashScroll } from '../lib/useHashScroll'
 
 const profileSchema = z.object({
   name: z.string().trim().min(1, 'Obligatorio').max(80),
@@ -97,12 +99,14 @@ function DeleteAccountCard() {
 
 export default function Profile() {
   const { user } = useAuth()
+  useHashScroll()
   if (!user) return null
   return (
     <>
       <PageHeader eyebrow="Área de usuario" title="Hola," accent={user.name} />
       <ProfileCard key={user.id} user={user} />
       <PasswordCard />
+      <NewsletterSection />
       <DeleteAccountCard />
     </>
   )

@@ -1,28 +1,20 @@
-import { forwardRef, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react'
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from 'react'
 import { ApiError } from '../lib/api'
-
-const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(' ')
+import { buttonClass, cx, type ButtonVariant } from './styles'
 
 export function Button({
   variant = 'primary',
   className,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'danger' }) {
-  const styles = {
-    primary: 'bg-forest text-paper hover:bg-forest/85',
-    secondary: 'bg-transparent text-forest ring-1 ring-forest/40 hover:bg-forest/5',
-    danger: 'bg-transparent text-red-800 ring-1 ring-red-800/50 hover:bg-red-800 hover:text-paper',
-  }[variant]
-  return (
-    <button
-      {...props}
-      className={cx(
-        'inline-flex items-center justify-center rounded-full px-7 py-3 text-xs font-bold uppercase tracking-widest transition disabled:cursor-not-allowed disabled:opacity-40',
-        styles,
-        className,
-      )}
-    />
-  )
+}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant }) {
+  return <button {...props} className={buttonClass(variant, className)} />
 }
 
 interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -52,6 +44,71 @@ export const Field = forwardRef<HTMLInputElement, FieldProps>(function Field(
     </label>
   )
 })
+
+const lineInput = (error?: string) =>
+  cx(
+    'mt-1 w-full border-0 border-b bg-transparent px-0 py-2 text-base outline-none transition placeholder:text-forest/30 focus:border-forest disabled:text-forest/50',
+    error ? 'border-red-700' : 'border-forest/30',
+  )
+
+const FieldLabel = ({ label, hint }: { label: string; hint?: string }) => (
+  <span className="flex items-baseline justify-between gap-4 text-[11px] font-bold uppercase tracking-[0.2em] text-forest/60">
+    {label}
+    {hint && <span className="font-normal normal-case tracking-normal text-forest/40">{hint}</span>}
+  </span>
+)
+
+interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label: string
+  error?: string
+  hint?: string
+}
+
+export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea(
+  { label, error, hint, className, rows = 4, ...props },
+  ref,
+) {
+  return (
+    <label className="block">
+      <FieldLabel label={label} hint={hint} />
+      <textarea ref={ref} rows={rows} {...props} aria-invalid={!!error} className={cx(lineInput(error), 'resize-y leading-relaxed', className)} />
+      {error && <span className="mt-1 block text-xs text-red-800">{error}</span>}
+    </label>
+  )
+})
+
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  label: string
+  error?: string
+  options: readonly string[]
+  placeholder?: string
+}
+
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
+  { label, error, options, placeholder = 'Sin indicar', className, ...props },
+  ref,
+) {
+  return (
+    <label className="block">
+      <FieldLabel label={label} />
+      <span className="relative block">
+        <select ref={ref} {...props} aria-invalid={!!error} className={cx(lineInput(error), 'cursor-pointer appearance-none pr-8', className)}>
+          <option value="">{placeholder}</option>
+          {options.map((o) => (
+            <option key={o} value={o}>{o}</option>
+          ))}
+        </select>
+        <span aria-hidden className="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 text-sm text-forest/50">↓</span>
+      </span>
+      {error && <span className="mt-1 block text-xs text-red-800">{error}</span>}
+    </label>
+  )
+})
+
+// Etiqueta pequeña en mayúsculas espaciadas
+export const Eyebrow = ({ children, className }: { children: ReactNode; className?: string }) => (
+  <p className={cx('text-[11px] font-bold uppercase tracking-[0.3em] text-forest/60', className)}>{children}</p>
+)
 
 // Cabecera de página: etiqueta pequeña + título serif grande
 export function PageHeader({
