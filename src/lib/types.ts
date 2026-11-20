@@ -25,6 +25,7 @@ export interface Car {
   condition?: string // Estado de conservación
   mileage?: number // Kilómetros
   description?: string // Historia personal y emocional
+  photos?: string[] // URLs de las fotos (imgbb); la primera es la portada
 }
 
 export interface Participation {
@@ -52,7 +53,8 @@ export interface EventInfo {
   id: string // ID Evento (Eventos.csv)
   name: string
   year: number
-  date: string // YYYY-MM-DD
+  date: string // YYYY-MM-DD (primer día)
+  endDate?: string // YYYY-MM-DD (último día, si dura más de uno)
   city: string
   province: string
   venue: string

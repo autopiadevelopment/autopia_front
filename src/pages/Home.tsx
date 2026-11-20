@@ -5,7 +5,7 @@ import { NewsletterBand } from '../components/Newsletter'
 import { PageHeader } from '../components/ui'
 import { navNumber } from '../lib/nav'
 import { carsQuery } from '../lib/queries'
-import { carName, countdownLabel, currentEvent, formatEventDate, STATUS_LABEL, useCurrentPreregistration, useCurrentTicket } from '../lib/ticket'
+import { carName, countdownLabel, currentEvent, eventDays, formatEventDate, STATUS_LABEL, useCurrentPreregistration, useCurrentTicket } from '../lib/ticket'
 import type { TicketStatus } from '../lib/types'
 
 const COPY: Record<TicketStatus, { line: (car: string) => string; cta: string }> = {
@@ -30,7 +30,7 @@ function NextEvent() {
       className="group mt-16 grid items-center gap-8 rounded-[2rem] p-8 ring-1 ring-forest/15 transition hover:bg-white/40 sm:p-10 lg:grid-cols-[auto_1fr_auto] lg:gap-12"
     >
       <div className="lg:border-r lg:border-forest/15 lg:pr-12 lg:text-center">
-        <p className="font-serif text-8xl leading-none">{formatEventDate(e, { day: 'numeric' })}</p>
+        <p className="font-serif text-8xl leading-none">{eventDays(e)}</p>
         <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.3em] text-forest/60">{formatEventDate(e, { month: 'long', year: 'numeric' })}</p>
       </div>
       <div>
@@ -57,9 +57,9 @@ export default function Home() {
     cars === undefined ? 'Tu garaje' : cars.length === 0 ? 'Aún sin coches' : `${cars.length} ${cars.length === 1 ? 'coche' : 'coches'} en tu garaje`
 
   const sections = [
-    { to: '/perfil', title: 'Perfil', text: 'Tus datos personales, contraseña y newsletter.', hint: user?.email },
+    { to: '/perfil', title: 'Perfil', text: 'Tus datos personales y la newsletter.', hint: user?.email },
     { to: '/coches', title: 'Mis coches', text: 'La ficha completa de los coches que traes a Autopia.', hint: carsHint },
-    { to: '/historial', title: 'Historial', text: 'Las ediciones en las que has estado y con qué coche.', hint: 'Tu recorrido' },
+    { to: '/historial', title: 'Historial', text: 'Las ediciones en las que has estado y con qué coche.', hint: 'Próximamente' },
     { to: '/ayuda', title: 'Ayuda', text: 'Preguntas frecuentes y contacto con el equipo.', hint: '¿Hablamos?' },
   ]
 

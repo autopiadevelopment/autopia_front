@@ -4,8 +4,8 @@ export const nav = [
   { to: '/entrada', label: 'Mi entrada' },
   { to: '/perfil', label: 'Perfil' },
   { to: '/coches', label: 'Mis coches' },
-  { to: '/historial', label: 'Historial' },
-  { to: '/ayuda', label: 'Ayuda' },
+  { to: '/historial', label: 'Historial', soon: true },
+  { to: '/ayuda', label: "FAQ's" },
 ] as const
 
 export const navNumber = (to: string) => String(nav.findIndex((n) => n.to === to) + 1).padStart(2, '0')

@@ -33,13 +33,15 @@ export async function api<T = void>(
   options: { method?: string; body?: unknown } = {},
 ): Promise<T> {
   const token = tokenStore.get()
+  // Un Blob/File (p. ej. una foto) se envía tal cual, con su tipo; lo demás, como JSON
+  const raw = options.body instanceof Blob ? options.body : undefined
   const res = await fetch(`${BASE_URL}${path}`, {
     method: options.method ?? 'GET',
     headers: {
-      ...(options.body !== undefined && { 'Content-Type': 'application/json' }),
+      ...(options.body !== undefined && { 'Content-Type': raw ? raw.type : 'application/json' }),
       ...(token && { Authorization: `Bearer ${token}` }),
     },
-    body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+    body: raw ?? (options.body !== undefined ? JSON.stringify(options.body) : undefined),
   })
 
   if (res.status === 204) return undefined as T

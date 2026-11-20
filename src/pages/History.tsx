@@ -3,11 +3,30 @@ import { Empty, ErrorMessage, PageHeader, Spinner } from '../components/ui'
 import { api } from '../lib/api'
 import type { Participation } from '../lib/types'
 
+// Mientras el historial no esté listo se muestra el aviso de "próximamente". Para activarlo, poner a false.
+export const HISTORY_COMING_SOON = true
+
 export default function History() {
   const { data, isLoading, error } = useQuery({
     queryKey: ['participations'],
     queryFn: () => api<{ participations: Participation[] }>('/users/me/participations').then((r) => r.participations),
+    enabled: !HISTORY_COMING_SOON,
   })
+
+  if (HISTORY_COMING_SOON) {
+    return (
+      <>
+        <PageHeader eyebrow="Tu recorrido" title="Mi" accent="historial" />
+        <div className="mt-10 max-w-2xl rounded-3xl bg-white/40 p-10 ring-1 ring-forest/10">
+          <span className="inline-block rounded-full bg-forest px-5 py-2 text-[11px] font-bold uppercase tracking-[0.2em] text-paper">Próximamente</span>
+          <p className="mt-6 font-serif text-3xl italic leading-snug">
+            Muy pronto podrás ver aquí tu historial de entradas: las ediciones en las que has estado y con qué coche.
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-forest/70">Estamos terminando de prepararlo.</p>
+        </div>
+      </>
+    )
+  }
 
   return (
     <>

@@ -5,7 +5,26 @@ import { Button, Section } from './ui'
 const NAME = 'Cartas desde el bosque'
 const PITCH = 'Una carta al mes con las próximas ediciones, rutas y las mejores historias del garaje. Sin ruido.'
 
+// Mientras la newsletter no esté conectada a un proveedor se muestra "próximamente". Para activarla, poner a false.
+const NEWSLETTER_COMING_SOON = true
+
+function ComingSoon({ dark = false }: { dark?: boolean }) {
+  return (
+    <div className="flex flex-col justify-center">
+      <span className={`self-start rounded-full px-5 py-2 text-[11px] font-bold uppercase tracking-[0.2em] ${dark ? 'bg-paper text-forest' : 'bg-forest text-paper'}`}>
+        Próximamente
+      </span>
+      <p className="mt-5 font-serif text-3xl italic leading-snug">Muy pronto podrás suscribirte desde aquí.</p>
+      <p className={`mt-3 text-sm leading-relaxed ${dark ? 'text-paper/60' : 'text-forest/60'}`}>Estamos preparando las primeras cartas.</p>
+    </div>
+  )
+}
+
 function NewsletterForm({ dark = false }: { dark?: boolean }) {
+  return NEWSLETTER_COMING_SOON ? <ComingSoon dark={dark} /> : <RealNewsletterForm dark={dark} />
+}
+
+function RealNewsletterForm({ dark = false }: { dark?: boolean }) {
   const nl = useNewsletter()
   const [topics, setTopics] = useState<Topic[]>(nl.topics)
   const [editing, setEditing] = useState(false)

@@ -27,6 +27,9 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                   0{i + 1}
                 </span>
                 <span className="font-display text-sm font-extrabold uppercase tracking-wide">{it.label}</span>
+                {'soon' in it && (
+                  <span className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.2em] text-paper/60 ring-1 ring-paper/30">Pronto</span>
+                )}
                 {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-paper" />}
               </>
             )}

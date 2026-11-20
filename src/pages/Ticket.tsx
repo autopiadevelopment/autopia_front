@@ -8,14 +8,16 @@ import {
   countdownLabel,
   currentEvent,
   downloadIcs,
-  formatDay,
+  eventDays,
   formatEventDate,
+  formatDay,
+  formatEventRange,
   mapsUrl,
   STATUS_LABEL,
   useCurrentPreregistration,
   useCurrentTicket,
 } from '../lib/ticket'
-import type { Ticket as TicketT } from '../lib/types'
+import type { Preregistration, Ticket as TicketT } from '../lib/types'
 
 const Detail = ({ label, children }: { label: string; children: ReactNode }) => (
   <div>
@@ -87,7 +89,7 @@ export function TicketCard({ ticket }: { ticket: TicketT }) {
         </h2>
 
         <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-paper/15 pt-8 xl:grid-cols-4">
-          <Detail label="Fecha">{formatEventDate(e, { weekday: 'short', day: 'numeric', month: 'short' })}</Detail>
+          <Detail label="Fecha">{formatEventRange(e, 'short')}</Detail>
           <Detail label="Acceso desde">{ticket.doorsOpen ? `${ticket.doorsOpen} h` : 'Por confirmar'}</Detail>
           <Detail label="Puerta">{ticket.gate ?? 'Por confirmar'}</Detail>
           <Detail label="Lugar">{e.city}</Detail>
@@ -157,8 +159,9 @@ function Progress({ ticket }: { ticket: TicketT }) {
 
 const textLink = 'underline underline-offset-4 hover:text-forest'
 
-// Prerregistrado pero aún sin entrada (el prerregistro no lleva coche)
-function Preregistered() {
+// Prerregistrado pero aún sin entrada (el prerregistro no lleva coche).
+// A propósito NO tiene forma de billete: todavía no es una entrada.
+function Preregistered({ pre }: { pre: Preregistration }) {
   const e = currentEvent
   return (
     <>
@@ -168,16 +171,31 @@ function Preregistered() {
         accent="entrada"
         action={<p className="font-serif text-3xl italic text-forest/70">{countdownLabel(e)}</p>}
       />
-      <p className="mt-10 max-w-2xl font-serif text-3xl italic leading-snug text-forest/70">
-        Tienes hecho el prerregistro para {e.name} {e.year}. Tu entrada aparecerá aquí cuando esté lista.
-      </p>
-      <Section title="El evento" description={formatEventDate(e)}>
+
+      <div className="mt-12 grid gap-10 rounded-[2rem] bg-white/40 p-8 ring-1 ring-forest/10 motion-safe:animate-rise sm:p-12 lg:grid-cols-[auto_1fr] lg:gap-16">
+        <div className="lg:border-r lg:border-forest/15 lg:pr-16 lg:text-center">
+          <p className="font-serif text-8xl leading-none">{eventDays(e)}</p>
+          <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.3em] text-forest/60">
+            {formatEventDate(e, { month: 'long', year: 'numeric' })}
+          </p>
+        </div>
+        <div className="flex flex-col justify-center">
+          <p className="inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.3em] text-forest/60">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-forest text-xs text-paper">✓</span>
+            Prerregistro hecho · {formatDay(pre.createdAt.slice(0, 10))}
+          </p>
+          <h2 className="mt-4 font-serif text-4xl font-normal normal-case leading-tight tracking-normal xl:text-5xl">
+            Ya estás en la lista para <em>{e.name} {e.year}</em>.
+          </h2>
+        </div>
+      </div>
+
+      <Section title="El evento" description={formatEventRange(e)}>
         <p className="font-serif text-3xl italic leading-snug text-forest/80">{e.summary}</p>
-        <dl className="mt-10 grid gap-x-10 gap-y-6 sm:grid-cols-3">
+        <dl className="mt-10 grid gap-x-10 gap-y-6 sm:grid-cols-2">
           {[
             ['Lugar', e.venue],
             ['Ciudad', `${e.city}, ${e.province}`],
-            ['Fecha', formatEventDate(e, { day: 'numeric', month: 'long', year: 'numeric' })],
           ].map(([k, v]) => (
             <div key={k}>
               <dt className="text-[11px] font-bold uppercase tracking-[0.2em] text-forest/50">{k}</dt>
@@ -185,6 +203,7 @@ function Preregistered() {
             </div>
           ))}
         </dl>
+        <a href={mapsUrl(e)} target="_blank" rel="noreferrer" className={buttonClass('secondary', 'mt-10')}>Cómo llegar ↗</a>
       </Section>
     </>
   )
@@ -200,7 +219,7 @@ export default function Ticket() {
   if (error) return <ErrorMessage error={error} />
   if (!ticket) {
     if (preError) return <ErrorMessage error={preError} />
-    if (pre) return <Preregistered />
+    if (pre) return <Preregistered pre={pre} />
     return (
       <>
         <PageHeader eyebrow="Próximo evento" title="Mi" accent="entrada" />
@@ -254,7 +273,7 @@ export default function Ticket() {
         )}
       </Section>
 
-      <Section title="El evento" description={formatEventDate(e)}>
+      <Section title="El evento" description={formatEventRange(e)}>
         <p className="font-serif text-3xl italic leading-snug text-forest/80">{e.summary}</p>
         <dl className="mt-10 grid gap-x-10 gap-y-6 sm:grid-cols-3">
           {[

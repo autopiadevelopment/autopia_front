@@ -16,11 +16,12 @@ const CURRENT_EVENT: EventInfo = {
   name: 'AUTOPÍA Madrid',
   year: 2027,
   date: '2027-04-24',
-  city: 'Madrid',
+  endDate: '2027-04-25',
+  city: 'Boadilla del Monte',
   province: 'Madrid',
-  venue: 'Recinto por anunciar',
+  venue: 'Bosque de la Ciudad Financiera del Santander',
   summary:
-    'La edición madrileña vuelve al bosque: un día entero entre clásicos, deportivos y coches con historia, con ruta por el pinar, comida bajo los árboles y los premios Autopia al caer la tarde.',
+    'La edición madrileña vuelve al bosque de la Ciudad Financiera del Santander: un fin de semana entre clásicos, deportivos y coches con historia, con ruta por el pinar, comida bajo los árboles y los premios Autopia al caer la tarde.',
   schedule: [
     { time: '08:00', title: 'Acceso de participantes', text: 'Llegada y colocación de los coches por zonas. El acceso cierra a las 09:30.' },
     { time: '10:00', title: 'Apertura al público', text: 'Se abren las puertas para visitantes.' },
@@ -94,6 +95,8 @@ export const formatDay = (iso: string) =>
 // ── Utilidades de fecha del evento ──────────────────────────────────────────
 
 const eventDate = (e: EventInfo) => new Date(`${e.date}T00:00:00`)
+const eventEndDate = (e: EventInfo) => new Date(`${e.endDate ?? e.date}T00:00:00`)
+const isMultiDay = (e: EventInfo) => !!e.endDate && e.endDate !== e.date
 
 export const daysUntil = (e: EventInfo) => {
   const today = new Date()
@@ -106,20 +109,42 @@ export const countdownLabel = (e: EventInfo) => {
   if (d > 1) return `Faltan ${d} días`
   if (d === 1) return 'Es mañana'
   if (d === 0) return 'Es hoy'
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  if (today <= eventEndDate(e)) return 'En marcha'
   return 'Evento finalizado'
 }
 
 export const formatEventDate = (e: EventInfo, opts: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) =>
   new Intl.DateTimeFormat('es-ES', opts).format(eventDate(e))
 
+// Días del evento: "24–25" (o "24" si dura un día)
+export const eventDays = (e: EventInfo) =>
+  isMultiDay(e) ? `${eventDate(e).getDate()}–${eventEndDate(e).getDate()}` : String(eventDate(e).getDate())
+
+// Fechas del evento en texto. long: "sábado 24 y domingo 25 de abril de 2027" · short: "sáb 24 – dom 25 abr"
+export function formatEventRange(e: EventInfo, style: 'long' | 'short' = 'long') {
+  if (!isMultiDay(e)) {
+    return formatEventDate(e, style === 'long' ? undefined : { weekday: 'short', day: 'numeric', month: 'short' })
+  }
+  const wd = (d: Date) => new Intl.DateTimeFormat('es-ES', { weekday: style }).format(d)
+  const [a, b] = [eventDate(e), eventEndDate(e)]
+  if (style === 'short') {
+    const month = new Intl.DateTimeFormat('es-ES', { month: 'short' }).format(b)
+    return `${wd(a)} ${a.getDate()} – ${wd(b)} ${b.getDate()} ${month}`
+  }
+  const tail = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' }).format(b)
+  return `${wd(a)} ${a.getDate()} y ${wd(b)} ${b.getDate()} de ${tail}`
+}
+
 export const mapsUrl = (e: EventInfo) =>
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${e.city}, ${e.province}`)}`
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${e.venue}, ${e.city}, ${e.province}`)}`
 
 // Descarga un .ics con el evento (día completo) para añadirlo al calendario (solo entradas aceptadas)
 export function downloadIcs(t: Ticket, code: string) {
   const e = t.event
   const day = e.date.replaceAll('-', '')
-  const next = new Date(eventDate(e).getTime() + 86_400_000)
+  const next = new Date(eventEndDate(e).getTime() + 86_400_000)
   const end = `${next.getFullYear()}${String(next.getMonth() + 1).padStart(2, '0')}${String(next.getDate()).padStart(2, '0')}`
   const esc = (s: string) => s.replace(/[\\,;]/g, (c) => `\\${c}`).replace(/\n/g, '\\n')
   const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '')

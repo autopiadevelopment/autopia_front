@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState, type ReactNode } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
+import { CarGallery, PhotoManager } from '../components/CarPhotos'
 import { Button, Card, Empty, ErrorMessage, Eyebrow, Field, PageHeader, Select, Spinner, TextArea } from '../components/ui'
 import { api } from '../lib/api'
 import { carsQuery } from '../lib/queries'
@@ -66,6 +67,8 @@ function CarView({ car, onEdit, onDelete, deleting }: { car: Car; onEdit: () => 
 
   return (
     <div className="flex h-full flex-col gap-8">
+      <CarGallery car={car} onAdd={onEdit} />
+
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <Eyebrow>{car.brand}</Eyebrow>
@@ -214,6 +217,14 @@ function CarForm({ car, onDone }: { car?: Car; onDone: () => void }) {
 
   return (
     <form onSubmit={handleSubmit((f) => mutation.mutate(f))} className="grid gap-y-12 sm:grid-cols-2" noValidate>
+      <FormGroup title="Fotografías">
+        {car ? (
+          <PhotoManager car={car} />
+        ) : (
+          <p className="font-serif text-xl italic text-forest/50 sm:col-span-2">Podrás añadir fotos en cuanto guardes el coche.</p>
+        )}
+      </FormGroup>
+
       <FormGroup title="Identificación">
         <Field label="Marca" error={errors.brand?.message} {...register('brand')} />
         <Field label="Modelo" error={errors.model?.message} {...register('model')} />
