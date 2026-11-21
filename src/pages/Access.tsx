@@ -138,7 +138,7 @@ function EmailStep({ defaultEmail, onFound }: { defaultEmail: string; onFound: (
 
   return (
     <Stage eyebrow="Área de usuario" title="Te damos la" accent="bienvenida">
-      <Lead>Tus coches, tus ediciones y todo lo que has vivido en Autopia, en un solo lugar.</Lead>
+      <Lead>Tus coches, tus ediciones y todo lo que has vivido en Autopía, en un solo lugar.</Lead>
       <form onSubmit={handleSubmit((d) => lookup.mutate(d))} className="mt-10 space-y-8" noValidate>
         <Field label="Email" type="email" autoComplete="email" autoFocus error={errors.email?.message} {...register('email')} />
         <ErrorMessage error={lookup.error} />
@@ -146,7 +146,7 @@ function EmailStep({ defaultEmail, onFound }: { defaultEmail: string; onFound: (
           {lookup.isPending ? 'Un momento…' : 'Continuar'}
         </Button>
       </form>
-      <Body>Si ya has estado en Autopia, te reconoceremos.</Body>
+      <Body>Si ya has estado en Autopía, te reconoceremos.</Body>
     </Stage>
   )
 }
@@ -194,7 +194,7 @@ function WelcomeStep({ email, onChangeEmail, onSent }: { email: string; onChange
 
   return (
     <Stage eyebrow="Cuenta encontrada" title="Vaya, ya" accent="nos conocemos">
-      <Lead>Parece que has venido a Autopia anteriormente y ya formas parte de nuestro registro.</Lead>
+      <Lead>Parece que has venido a Autopía anteriormente y ya formas parte de nuestro registro.</Lead>
       <Body>
         Para ver tu área de usuario, crea una contraseña para tu cuenta. Antes te enviaremos un código a tu email
         para confirmar que eres tú.
@@ -215,7 +215,7 @@ function WelcomeStep({ email, onChangeEmail, onSent }: { email: string; onChange
 function UnknownStep({ email, onChangeEmail }: { email: string; onChangeEmail: () => void }) {
   return (
     <Stage eyebrow="Sin registro" title="No te" accent="encontramos">
-      <Lead>Este email no figura entre quienes han pasado por Autopia.</Lead>
+      <Lead>Este email no figura entre quienes han pasado por Autopía.</Lead>
       <Body>
         El área de usuario es para quienes ya han venido a alguna edición. Comprueba que está bien escrito o prueba con
         el email que usaste al inscribirte.
@@ -339,7 +339,7 @@ function CreatePasswordStep({
       title: 'Crea tu',
       accent: 'contraseña',
       lead: 'Email confirmado. Con ella entrarás en tu área de usuario a partir de ahora.',
-      cta: 'Entrar en Autopia',
+      cta: 'Entrar en Autopía',
     },
     reset: {
       eyebrow: 'Nueva contraseña',

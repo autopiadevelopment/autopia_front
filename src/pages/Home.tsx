@@ -58,7 +58,7 @@ export default function Home() {
 
   const sections = [
     { to: '/perfil', title: 'Perfil', text: 'Tus datos personales y la newsletter.', hint: user?.email },
-    { to: '/coches', title: 'Mis coches', text: 'La ficha completa de los coches que traes a Autopia.', hint: carsHint },
+    { to: '/coches', title: 'Mis coches', text: 'La ficha completa de los coches que traes a Autopía.', hint: carsHint },
     { to: '/historial', title: 'Historial', text: 'Las ediciones en las que has estado y con qué coche.', hint: 'Próximamente' },
     { to: '/ayuda', title: 'Ayuda', text: 'Preguntas frecuentes y contacto con el equipo.', hint: '¿Hablamos?' },
   ]
@@ -67,7 +67,7 @@ export default function Home() {
     <>
       <PageHeader eyebrow={`Hola, ${user?.name}`} title="Bienvenido a tu" accent="área de usuario" />
       <p className="mt-10 max-w-2xl font-serif text-3xl italic leading-snug text-forest/70">
-        Tu entrada, tus coches y tu paso por Autopia, todo en un mismo sitio.
+        Tu entrada, tus coches y tu paso por Autopía, todo en un mismo sitio.
       </p>
 
       <NextEvent />

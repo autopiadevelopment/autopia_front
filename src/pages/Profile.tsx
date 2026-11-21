@@ -34,7 +34,7 @@ function ProfileCard({ user }: { user: User }) {
   })
 
   return (
-    <Section title="Mis datos" description="Así te conocemos en Autopia.">
+    <Section title="Mis datos" description="Así te conocemos en Autopía.">
       <form onSubmit={handleSubmit((d) => { setSaved(false); mutation.mutate(d) })} className="grid gap-x-10 gap-y-8 sm:grid-cols-2" noValidate>
         <Field label="Email" value={user.email} disabled readOnly />
         <Field label="Teléfono" type="tel" autoComplete="tel" error={errors.phone?.message} {...register('phone')} />

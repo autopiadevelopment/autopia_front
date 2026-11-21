@@ -77,7 +77,7 @@ export function TicketCard({ ticket }: { ticket: TicketT }) {
     >
       <div className="p-8 sm:p-12">
         <div className="flex items-center justify-between gap-6">
-          <img src="/brand/logo-beige.svg" alt="Autopia" className="w-28" />
+          <img src="/brand/logo-beige.svg" alt="Autopía" className="w-28" />
           <StatusBadge ticket={ticket} />
         </div>
 

@@ -21,13 +21,13 @@ const CURRENT_EVENT: EventInfo = {
   province: 'Madrid',
   venue: 'Bosque de la Ciudad Financiera del Santander',
   summary:
-    'La edición madrileña vuelve al bosque de la Ciudad Financiera del Santander: un fin de semana entre clásicos, deportivos y coches con historia, con ruta por el pinar, comida bajo los árboles y los premios Autopia al caer la tarde.',
+    'La edición madrileña vuelve al bosque de la Ciudad Financiera del Santander: un fin de semana entre clásicos, deportivos y coches con historia, con ruta por el pinar, comida bajo los árboles y los premios Autopía al caer la tarde.',
   schedule: [
     { time: '08:00', title: 'Acceso de participantes', text: 'Llegada y colocación de los coches por zonas. El acceso cierra a las 09:30.' },
     { time: '10:00', title: 'Apertura al público', text: 'Se abren las puertas para visitantes.' },
     { time: '11:30', title: 'Ruta por el bosque', text: 'Salida escalonada de los participantes inscritos en la ruta.' },
     { time: '13:30', title: 'Comida bajo los pinos', text: 'Food trucks y zona de picnic.' },
-    { time: '16:30', title: 'Premios Autopia', text: 'Mejor historia, mejor restauración y elección del público.' },
+    { time: '16:30', title: 'Premios Autopía', text: 'Mejor historia, mejor restauración y elección del público.' },
     { time: '18:30', title: 'Cierre', text: 'Salida ordenada de los coches, siguiendo al equipo de pista.' },
   ],
   tips: [

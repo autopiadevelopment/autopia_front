@@ -13,11 +13,11 @@ type Faq = { q: string; a: string; link?: { to: string; label: string } }
 // Contenido provisional (de relleno, basado en autopia.events/sobre-nosotros): revisar con el equipo antes de publicar
 const FAQS: { title: string; description: string; items: Faq[] }[] = [
   {
-    title: 'Sobre Autopia',
+    title: 'Sobre Autopía',
     description: 'Quiénes somos y qué es esto del bosque.',
     items: [
       {
-        q: '¿Qué es Autopia?',
+        q: '¿Qué es Autopía?',
         a: 'Un encuentro de coches clásicos, especiales y de vanguardia en 70 hectáreas de bosque. Cultura del automóvil y ocio en un mismo sitio, sin prisas.',
       },
       {

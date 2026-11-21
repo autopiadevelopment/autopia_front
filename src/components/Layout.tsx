@@ -8,7 +8,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { user, logout } = useAuth()
   return (
     <div className="flex min-h-full flex-col bg-forest px-9 py-10 text-paper">
-      <img src="/brand/logo-tag-beige.svg" alt="Autopia 05 · Idilio automovilístico en el bosque" className="w-full" />
+      <img src="/brand/logo-tag-beige.svg" alt="Autopía 05 · Idilio automovilístico en el bosque" className="w-full" />
 
       <nav className="mt-12 border-b border-paper/15">
         {nav.map((it, i) => (
@@ -95,7 +95,7 @@ export function PublicLayout() {
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-2">
       <div className="hidden flex-col justify-between bg-forest p-16 text-paper lg:flex">
-        <img src="/brand/logo-beige.svg" alt="Autopia" className="w-56" />
+        <img src="/brand/logo-beige.svg" alt="Autopía" className="w-56" />
         <p className="font-serif text-6xl italic leading-[1.05] xl:text-7xl">
           Idilio automovilístico en el bosque.
         </p>
@@ -103,7 +103,7 @@ export function PublicLayout() {
       </div>
       <div className="flex min-h-screen items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
-          <img src="/brand/logo-green.svg" alt="Autopia" className="mb-12 w-40 lg:hidden" />
+          <img src="/brand/logo-green.svg" alt="Autopía" className="mb-12 w-40 lg:hidden" />
           <Outlet />
         </div>
       </div>
